@@ -1,16 +1,31 @@
-const title = document.getElementById("title");
-const image = document.getElementById("image");
-title.addEventListener("mouseover", () => {
-    title.style.fontSize = "3rem";
+const ball = document.getElementById("ball");
+let bouncing = false;
+
+function randomPosition() {
+    const windowHeight = window.innerHeight - ball.clientHeight;
+    const windowWidth = window.innerWidth - ball.clientWidth;
+
+    const randomY = Math.floor(Math.random() * windowHeight);
+    const randomX = Math.floor(Math.random() * windowWidth);
+
+    ball.style.top = `${randomY}px`;
+    ball.style.left = `${randomX}px`;
+}
+
+function bounce() {
+    if (bouncing) {
+        randomPosition();
+        setTimeout(bounce, 500);
+    }
+}
+
+ball.addEventListener("mouseover", () => {
+    if (!bouncing) {
+        bouncing = true;
+        bounce();
+    }
 });
 
-title.addEventListener("mouseout", () => {
-    title.style.fontSize = "2rem";
-});
-image.addEventListener("mouseover", () => {
-    image.style.transform = "scale(1.5)";
-});
-
-image.addEventListener("mouseout", () => {
-    image.style.transform = "scale(1)";
+ball.addEventListener("click", () => {
+    bouncing = false;
 });
