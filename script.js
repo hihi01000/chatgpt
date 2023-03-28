@@ -3,8 +3,8 @@ const container = document.querySelector(".container");
 let moving = false;
 
 function randomPosition() {
-    const windowHeight = window.innerHeight - ball.clientHeight;
-    const windowWidth = window.innerWidth - ball.clientWidth;
+    const windowHeight = window.innerHeight - ball.clientHeight * 2; // 공 크기 2배로 변경
+    const windowWidth = window.innerWidth - ball.clientWidth * 2; // 공 크기 2배로 변경
 
     const randomY = Math.floor(Math.random() * windowHeight);
     const randomX = Math.floor(Math.random() * windowWidth);
