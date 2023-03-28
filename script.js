@@ -3,8 +3,8 @@ const container = document.querySelector(".container");
 let moving = false;
 
 function randomPosition() {
-    const windowHeight = window.innerHeight - ball.clientHeight * 2; // 공 크기 2배로 변경
-    const windowWidth = window.innerWidth - ball.clientWidth * 2; // 공 크기 2배로 변경
+    const windowHeight = window.innerHeight - ball.clientHeight * 2;
+    const windowWidth = window.innerWidth - ball.clientWidth * 2;
 
     const randomY = Math.floor(Math.random() * windowHeight);
     const randomX = Math.floor(Math.random() * windowWidth);
@@ -45,6 +45,11 @@ function moveBall() {
     }
 }
 
+function stopBall() {
+    moving = false;
+    ball.getAnimations().forEach((animation) => animation.cancel());
+}
+
 ball.addEventListener("mouseover", () => {
     if (!moving) {
         moving = true;
@@ -52,7 +57,14 @@ ball.addEventListener("mouseover", () => {
     }
 });
 
-ball.addEventListener("click", () => {
-    moving = false;
-    ball.getAnimations().forEach((animation) => animation.cancel());
+ball.addEventListener("click", stopBall); // 마우스 클릭 이벤트 처리
+
+ball.addEventListener("touchstart", (e) => { // 터치 이벤트 처리
+    e.preventDefault(); // 기본 터치 동작을 방지
+    if (!moving) {
+        moving = true;
+        moveBall();
+    } else {
+        stopBall();
+    }
 });
