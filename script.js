@@ -1,5 +1,6 @@
 const ball = document.getElementById("ball");
-let bouncing = false;
+const container = document.querySelector(".container");
+let moving = false;
 
 function randomPosition() {
     const windowHeight = window.innerHeight - ball.clientHeight;
@@ -8,24 +9,50 @@ function randomPosition() {
     const randomY = Math.floor(Math.random() * windowHeight);
     const randomX = Math.floor(Math.random() * windowWidth);
 
-    ball.style.top = `${randomY}px`;
-    ball.style.left = `${randomX}px`;
+    return { x: randomX, y: randomY };
 }
 
-function bounce() {
-    if (bouncing) {
-        randomPosition();
-        setTimeout(bounce, 500);
+function moveBall() {
+    if (moving) {
+        const newPosition = randomPosition();
+        ball.animate(
+            [
+                { transform: "rotate(0deg)" },
+                { transform: "rotate(360deg)" },
+            ],
+            {
+                duration: 1000,
+                iterations: Infinity,
+            }
+        );
+
+        ball.animate(
+            [
+                {
+                    top: ball.offsetTop + "px",
+                    left: ball.offsetLeft + "px",
+                },
+                {
+                    top: newPosition.y + "px",
+                    left: newPosition.x + "px",
+                },
+            ],
+            {
+                duration: 1000,
+                fill: "forwards",
+            }
+        ).onfinish = moveBall;
     }
 }
 
 ball.addEventListener("mouseover", () => {
-    if (!bouncing) {
-        bouncing = true;
-        bounce();
+    if (!moving) {
+        moving = true;
+        moveBall();
     }
 });
 
 ball.addEventListener("click", () => {
-    bouncing = false;
+    moving = false;
+    ball.getAnimations().forEach((animation) => animation.cancel());
 });
