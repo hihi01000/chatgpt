@@ -1,6 +1,8 @@
 const ball = document.getElementById("ball");
 const container = document.querySelector(".container");
+const scoreDisplay = document.getElementById("score");
 let moving = false;
+let score = 0;
 
 function randomPosition() {
     const windowHeight = window.innerHeight - ball.clientHeight * 2;
@@ -38,7 +40,7 @@ function moveBall() {
                 },
             ],
             {
-                duration: 1000,
+                duration: 500, // 움직이는 속도를 2배 높임
                 fill: "forwards",
             }
         ).onfinish = moveBall;
@@ -48,6 +50,12 @@ function moveBall() {
 function stopBall() {
     moving = false;
     ball.getAnimations().forEach((animation) => animation.cancel());
+    updateScore();
+}
+
+function updateScore() {
+    score++;
+    scoreDisplay.textContent = score;
 }
 
 ball.addEventListener("mouseover", () => {
