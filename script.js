@@ -1,6 +1,7 @@
 const ball = document.getElementById("ball");
 const container = document.querySelector(".container");
 const scoreDisplay = document.getElementById("score");
+const music = document.getElementById("music"); // 음악 요소를 가져옴
 let moving = false;
 let score = 0;
 
@@ -65,14 +66,18 @@ ball.addEventListener("mouseover", () => {
     }
 });
 
-ball.addEventListener("click", stopBall); // 마우스 클릭 이벤트 처리
+ball.addEventListener("click", () => {
+    stopBall();
+    music.play(); // 공을 클릭할 때 음악 재생
+});
 
-ball.addEventListener("touchstart", (e) => { // 터치 이벤트 처리
-    e.preventDefault(); // 기본 터치 동작을 방지
+ball.addEventListener("touchstart", (e) => {
+    e.preventDefault();
     if (!moving) {
         moving = true;
         moveBall();
     } else {
         stopBall();
+        music.play(); // 공을 터치할 때 음악 재생
     }
 });
